@@ -1,0 +1,36 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.o
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+c/bin/*
+cpp/bin/*
+!c/bin/.keep
+!cpp/bin/.keep
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Clangd
+.cache/
+compile_commands.json
+
+# OS specific
+.DS_Store

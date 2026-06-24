@@ -1,0 +1,32 @@
+CompileFlags:
+  Add:
+    - -Wall
+    - -Wextra
+    - -Wpedantic
+    - -Wconversion
+    - -Wno-sign-conversion
+
+    - -Wshadow
+    - -Wnon-virtual-dtor
+    - -Wold-style-cast
+    - -Wdouble-promotion
+    - -Wnull-dereference
+
+    - -fsanitize=address
+    - -fsanitize=undefined
+
+Diagnostics:
+  UnusedIncludes: Strict
+
+  ClangTidy:
+    Add:
+      - performance-*
+      - modernize-*
+    Remove:
+      - modernize-use-trailing-return-type
+
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+  Designators: Yes
