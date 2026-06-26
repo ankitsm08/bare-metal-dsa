@@ -4,6 +4,15 @@ My personal playground for building core data structures and algorithms complete
 
 I usually start by writing everything in strict C. It forces me to actually understand what's happening under the hood with memory allocation (`malloc`/`free`) and double pointers. Once I have the raw mechanics working and understand the system-level execution, I re-implement the same structures and algorithms in C++. This helps me understand how templates, classes, and OOP abstractions are used to build the standard libraries I rely on every day.
 
+## Design Philosophy
+
+This C and C++ library follows a C and C++ standard-library-style contract.
+
+- The caller is responsible for satisfying all documented preconditions.
+- Violating a precondition results in undefined behavior or immediate program termination.
+- No attempt is made to recover from programmer errors.
+- Prioritize simplicity, performance, and explicit contracts over defensive safety.
+
 ## Repository Structure
 
 ```text
