@@ -1,3 +1,4 @@
+---
 CompileFlags:
   Add:
     - -Wall
@@ -5,10 +6,7 @@ CompileFlags:
     - -Wpedantic
     - -Wconversion
     - -Wno-sign-conversion
-
     - -Wshadow
-    - -Wnon-virtual-dtor
-    - -Wold-style-cast
     - -Wdouble-promotion
     - -Wnull-dereference
 
@@ -30,3 +28,22 @@ InlayHints:
   ParameterNames: Yes
   DeducedTypes: Yes
   Designators: Yes
+...
+---
+If:
+  PathMatch: .*\.(c|h)
+
+CompileFlags:
+  Add:
+    - -std=c11
+...
+---
+If:
+  PathMatch: .*\.(cpp|hpp|cxx|cc)
+
+CompileFlags:
+  Add:
+    - -std=c++20
+    - -Wnon-virtual-dtor
+    - -Wold-style-cast
+...
