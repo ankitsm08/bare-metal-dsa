@@ -1,4 +1,5 @@
 #include "__TYPE__/__NAME__.hpp"
+#include <cassert>
 #include <iostream>
 
 #define RUN_TEST(test_func)                                                                        \

@@ -1,4 +1,5 @@
 #include "__TYPE__/__NAME__.h"
+#include <assert.h>
 #include <stdio.h>
 
 #define RUN_TEST(test_func)                                                                        \
