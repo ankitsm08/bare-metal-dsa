@@ -1,6 +1,7 @@
 #include "algo/sort.h"
 #include "utils/compare.h"
 #include <assert.h>
+#include <limits.h>
 #include <stddef.h>
 #include <stdio.h>
 
@@ -11,37 +12,55 @@
     printf("[ PASSED  ] %s\n\n", #test_func);                                                      \
   } while (0)
 
-const int sorted_ascending[6] = {1, 2, 3, 4, 5, 6};
-const int sorted_descending[6] = {6, 5, 4, 3, 2, 1};
+#define sz 11
+const int sorted_ascending[sz] = {INT_MIN, -42, -5, -3, 1, 2, 3, 4, 5, 6, +INT_MAX};
+const int sorted_descending[sz] = {INT_MAX, 6, 5, 4, 3, 2, 1, -3, -5, -42, INT_MIN};
+#define UNSORTED_ARRAY {1, -5, INT_MIN, -3, 6, 4, -42, 3, INT_MAX, 2, 5}
 
 void test_bubble_sort(void) {
-  int arr1[6] = {3, 4, 2, 6, 5, 1};
-  bubble_sort(arr1, arr1 + 6, compare_ascending);
+  int arr1[sz] = UNSORTED_ARRAY;
+  bubble_sort(arr1, arr1 + sz, compare_ascending);
 
-  for (size_t i = 0; i < 6; i++) {
+  for (size_t i = 0; i < sz; i++) {
     assert(arr1[i] == sorted_ascending[i]);
   }
 
-  int arr2[6] = {3, 4, 2, 6, 5, 1};
-  bubble_sort(arr2, arr2 + 6, compare_descending);
+  int arr2[sz] = UNSORTED_ARRAY;
+  bubble_sort(arr2, arr2 + sz, compare_descending);
 
-  for (size_t i = 0; i < 6; i++) {
+  for (size_t i = 0; i < sz; i++) {
     assert(arr2[i] == sorted_descending[i]);
   }
 }
 
 void test_selection_sort(void) {
-  int arr1[6] = {3, 4, 2, 6, 5, 1};
-  selection_sort(arr1, arr1 + 6, compare_ascending);
+  int arr1[sz] = UNSORTED_ARRAY;
+  selection_sort(arr1, arr1 + sz, compare_ascending);
 
-  for (size_t i = 0; i < 6; i++) {
+  for (size_t i = 0; i < sz; i++) {
     assert(arr1[i] == sorted_ascending[i]);
   }
 
-  int arr2[6] = {3, 4, 2, 6, 5, 1};
-  selection_sort(arr2, arr2 + 6, compare_descending);
+  int arr2[sz] = UNSORTED_ARRAY;
+  selection_sort(arr2, arr2 + sz, compare_descending);
 
-  for (size_t i = 0; i < 6; i++) {
+  for (size_t i = 0; i < sz; i++) {
+    assert(arr2[i] == sorted_descending[i]);
+  }
+}
+
+void test_insertion_sort(void) {
+  int arr1[sz] = UNSORTED_ARRAY;
+  insertion_sort(arr1, arr1 + sz, compare_ascending);
+
+  for (size_t i = 0; i < sz; i++) {
+    assert(arr1[i] == sorted_ascending[i]);
+  }
+
+  int arr2[sz] = UNSORTED_ARRAY;
+  insertion_sort(arr2, arr2 + sz, compare_descending);
+
+  for (size_t i = 0; i < sz; i++) {
     assert(arr2[i] == sorted_descending[i]);
   }
 }
@@ -51,6 +70,7 @@ int main(void) {
 
   RUN_TEST(test_bubble_sort);
   RUN_TEST(test_selection_sort);
+  RUN_TEST(test_insertion_sort);
 
   printf("All tests passed for sort\n");
   return 0;
