@@ -17,3 +17,18 @@ void bubble_sort(int *begin, int *end, compare_fn compare) {
     }
   }
 }
+
+// minimal writes
+void selection_sort(int *begin, int *end, compare_fn compare) {
+  for (int *i = begin; i < end - 1; i++) {
+    int *selected = i;
+
+    for (int *j = i + 1; j < end; j++) {
+      if (compare(*selected, *j) > 0)
+        selected = j;
+    }
+
+    if (selected != i)
+      swap(selected, i);
+  }
+}
