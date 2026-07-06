@@ -1,4 +1,7 @@
 #include "algo/sort.h"
+#include "utils/compare.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static inline void swap(int *a, int *b) {
   int tmp = *a;
@@ -41,5 +44,41 @@ void insertion_sort(int *begin, int *end, compare_fn compare) {
       *(j + 1) = *j;
 
     *(j + 1) = key;
+  }
+}
+
+// merge_sort helper
+void merge(int *begin, int *mid, int *end, compare_fn compare) {
+  int *tmp = malloc(sizeof(int) * (end - begin));
+
+  if (!tmp) {
+    fprintf(stderr, "Fatal: Out of memory allocating merge buffer.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  int *i = begin, *j = mid, *k = tmp;
+  while (i < mid && j < end)
+    *k++ = compare(*i, *j) > 0 ? *j++ : *i++;
+  while (i < mid)
+    *k++ = *i++;
+  while (j < end)
+    *k++ = *j++;
+
+  k = tmp;
+  while (begin < end)
+    *begin++ = *k++;
+
+  free(tmp);
+}
+
+// O(N log N) time and O(N) space
+void merge_sort(int *begin, int *end, compare_fn compare) {
+  if (begin + 1 < end) {
+    int *const mid = begin + ((end - begin) >> 1);
+
+    merge_sort(begin, mid, compare);
+    merge_sort(mid, end, compare);
+
+    merge(begin, mid, end, compare);
   }
 }
