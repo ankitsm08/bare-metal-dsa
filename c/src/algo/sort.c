@@ -61,11 +61,9 @@ void merge(int *begin, int *mid, int *end, compare_fn compare) {
     *k++ = compare(*i, *j) > 0 ? *j++ : *i++;
   while (i < mid)
     *k++ = *i++;
-  while (j < end)
-    *k++ = *j++;
 
   k = tmp;
-  while (begin < end)
+  while (begin < j)
     *begin++ = *k++;
 
   free(tmp);
