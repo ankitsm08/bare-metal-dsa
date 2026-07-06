@@ -17,53 +17,25 @@ const int sorted_ascending[sz] = {INT_MIN, -42, -5, -3, 1, 2, 3, 4, 5, 6, +INT_M
 const int sorted_descending[sz] = {INT_MAX, 6, 5, 4, 3, 2, 1, -3, -5, -42, INT_MIN};
 #define UNSORTED_ARRAY {1, -5, INT_MIN, -3, 6, 4, -42, 3, INT_MAX, 2, 5}
 
-void test_bubble_sort(void) {
+void test_sort(void sort(int *, int *, compare_fn)) {
   int arr1[sz] = UNSORTED_ARRAY;
-  bubble_sort(arr1, arr1 + sz, compare_ascending);
+  sort(arr1, arr1 + sz, compare_ascending);
 
   for (size_t i = 0; i < sz; i++) {
     assert(arr1[i] == sorted_ascending[i]);
   }
 
   int arr2[sz] = UNSORTED_ARRAY;
-  bubble_sort(arr2, arr2 + sz, compare_descending);
+  sort(arr2, arr2 + sz, compare_descending);
 
   for (size_t i = 0; i < sz; i++) {
     assert(arr2[i] == sorted_descending[i]);
   }
 }
 
-void test_selection_sort(void) {
-  int arr1[sz] = UNSORTED_ARRAY;
-  selection_sort(arr1, arr1 + sz, compare_ascending);
-
-  for (size_t i = 0; i < sz; i++) {
-    assert(arr1[i] == sorted_ascending[i]);
-  }
-
-  int arr2[sz] = UNSORTED_ARRAY;
-  selection_sort(arr2, arr2 + sz, compare_descending);
-
-  for (size_t i = 0; i < sz; i++) {
-    assert(arr2[i] == sorted_descending[i]);
-  }
-}
-
-void test_insertion_sort(void) {
-  int arr1[sz] = UNSORTED_ARRAY;
-  insertion_sort(arr1, arr1 + sz, compare_ascending);
-
-  for (size_t i = 0; i < sz; i++) {
-    assert(arr1[i] == sorted_ascending[i]);
-  }
-
-  int arr2[sz] = UNSORTED_ARRAY;
-  insertion_sort(arr2, arr2 + sz, compare_descending);
-
-  for (size_t i = 0; i < sz; i++) {
-    assert(arr2[i] == sorted_descending[i]);
-  }
-}
+void test_bubble_sort(void) { test_sort(bubble_sort); }
+void test_selection_sort(void) { test_sort(selection_sort); }
+void test_insertion_sort(void) { test_sort(insertion_sort); }
 
 int main(void) {
   printf("Testing sort...\n\n");
