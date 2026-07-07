@@ -97,7 +97,49 @@ int *lomuto_partition(int *begin, int *end, compare_fn compare) {
   return begin;
 }
 
+// ab ^ ac  == 1     a wins & loses => a is median
+// !(ab ^ bc) == 1   same check for b, otherwise c
+inline int *median3(int *a, int *b, int *c) {
+  const int ab = *a > *b, ac = *a > *c, bc = *b > *c;
+  return ab ^ ac ? a : !(ab ^ bc) ? b : c;
+}
+
+// quick sort hoare partition helper using median-of-three
+int *hoare_partition(int *begin, int *end, compare_fn compare) {
+  int *pivot_m3 = median3(begin, begin + ((end - begin) >> 1), end - 1);
+
+  int pivot_val = *pivot_m3;
+  swap(pivot_m3, end - 1);
+
+  int *i = begin, *j = end - 2;
+  while (true) {
+    while (compare(*i, pivot_val) < 0)
+      i++;
+    while (compare(pivot_val, *j) < 0)
+      j--;
+
+    if (i >= j)
+      break;
+
+    swap(i, j);
+  }
+
+  swap(i, end - 1);
+  return i;
+}
+
 // O(N log N) time and O(log N) call stack space
+// uses hoare partition
+void quick_sort(int *begin, int *end, compare_fn compare) {
+  if (begin + 1 < end) {
+    int *pivot = hoare_partition(begin, end, compare);
+
+    quick_sort(begin, pivot, compare);
+    quick_sort(pivot + 1, end, compare);
+  }
+}
+
+// same as hoare but higher writes during partition
 void quick_lomuto_sort(int *begin, int *end, compare_fn compare) {
   if (begin + 1 < end) {
     int *pivot = lomuto_partition(begin, end, compare);

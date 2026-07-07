@@ -38,6 +38,7 @@ void test_selection_sort(void) { test_sort(selection_sort); }
 void test_insertion_sort(void) { test_sort(insertion_sort); }
 void test_merge_sort(void) { test_sort(merge_sort); }
 void test_quick_lomuto_sort(void) { test_sort(quick_lomuto_sort); }
+void test_quick_sort(void) { test_sort(quick_sort); }
 
 int main(void) {
   printf("Testing sort...\n\n");
@@ -47,6 +48,7 @@ int main(void) {
   RUN_TEST(test_insertion_sort);
   RUN_TEST(test_merge_sort);
   RUN_TEST(test_quick_lomuto_sort);
+  RUN_TEST(test_quick_sort);
 
   printf("All tests passed for sort\n");
   return 0;
