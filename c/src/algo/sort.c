@@ -80,3 +80,29 @@ void merge_sort(int *begin, int *end, compare_fn compare) {
     merge(begin, mid, end, compare);
   }
 }
+
+// quick sort lomuto partition helper using middle-element
+int *lomuto_partition(int *begin, int *end, compare_fn compare) {
+  int *pivot_mid = begin + ((end - begin) >> 1);
+
+  int pivot_val = *pivot_mid;
+  swap(pivot_mid, end - 1);
+
+  for (int *j = begin; j < end - 1; j++) {
+    if (compare(*j, pivot_val) <= 0)
+      swap(begin++, j);
+  }
+
+  swap(begin, end - 1);
+  return begin;
+}
+
+// O(N log N) time and O(log N) call stack space
+void quick_lomuto_sort(int *begin, int *end, compare_fn compare) {
+  if (begin + 1 < end) {
+    int *pivot = lomuto_partition(begin, end, compare);
+
+    quick_lomuto_sort(begin, pivot, compare);
+    quick_lomuto_sort(pivot + 1, end, compare);
+  }
+}
