@@ -15,31 +15,63 @@
 const int sorted[sz] = {INT_MIN + 42, -42, -5, -3, 1, 2, 3, 4, 5, 6, INT_MAX - 42};
 
 void test_linear_search(void) {
+  // first element boundary
+  assert(linear_search(sorted, sorted + sz, INT_MIN + 42) == &sorted[0]);
+
   // general elements
   assert(linear_search(sorted, sorted + sz, -42) == &sorted[1]);
   assert(linear_search(sorted, sorted + sz, 1) == &sorted[4]);
   assert(linear_search(sorted, sorted + sz, INT_MAX - 42) == &sorted[10]);
 
-  // missing element
+  // missing element (positive and negative)
   assert(linear_search(sorted, sorted + sz, 404) == NULL);
+  assert(linear_search(sorted, sorted + sz, -9999) == NULL);
+
+  // single-element range
+  int x = 42;
+  assert(linear_search(&x, &x + 1, 42) == &x);
+  assert(linear_search(&x, &x + 1, 99) == NULL);
 
   // empty array boundary
   assert(linear_search(sorted, sorted, 1) == NULL);
 }
 
 void test_binary_search(void) {
-  // middle, boundaries, and general elements
-  assert(binary_search(sorted, sorted + sz, -42, compare_ascending) == &sorted[1]);
-  assert(binary_search(sorted, sorted + sz, 1, compare_ascending) == &sorted[4]);
-  assert(binary_search(sorted, sorted + sz, INT_MAX - 42, compare_ascending) == &sorted[10]);
+  // first element boundary
+  assert(binary_search(sorted, sorted + sz, INT_MIN + 42, compare_ascending) == &sorted[0]);
+
+  // every element in the array
+  for (size_t i = 0; i < sz; i++)
+    assert(binary_search(sorted, sorted + sz, sorted[i], compare_ascending) == &sorted[i]);
 
   // opposite comparator (non-middle element)
-  assert(binary_search(sorted, sorted + sz, 6, compare_descending) == NULL); // not idx sz/2
+  assert(binary_search(sorted, sorted + sz, 6, compare_descending) == NULL);
 
   // missing elements (below, middle, above)
   assert(binary_search(sorted, sorted + sz, INT_MIN, compare_ascending) == NULL);
   assert(binary_search(sorted, sorted + sz, 42, compare_ascending) == NULL);
   assert(binary_search(sorted, sorted + sz, INT_MAX, compare_ascending) == NULL);
+
+  // even-length array
+  int even[] = {0, 2, 4, 6, 8, 10};
+  assert(binary_search(even, even + 6, 0, compare_ascending) == &even[0]);
+  assert(binary_search(even, even + 6, 6, compare_ascending) == &even[3]);
+  assert(binary_search(even, even + 6, 10, compare_ascending) == &even[5]);
+  assert(binary_search(even, even + 6, 7, compare_ascending) == NULL);
+
+  // 1-element and 2-element arrays
+  int one[] = {99};
+  assert(binary_search(one, one + 1, 99, compare_ascending) == &one[0]);
+  assert(binary_search(one, one + 1, 1, compare_ascending) == NULL);
+  int two[] = {10, 20};
+  assert(binary_search(two, two + 2, 10, compare_ascending) == &two[0]);
+  assert(binary_search(two, two + 2, 20, compare_ascending) == &two[1]);
+  assert(binary_search(two, two + 2, 15, compare_ascending) == NULL);
+
+  // duplicates: returns some pointer to a matching element
+  int dups[] = {1, 2, 2, 2, 3};
+  int *res = binary_search(dups, dups + 5, 2, compare_ascending);
+  assert(res && *res == 2);
 
   // empty array boundary
   assert(binary_search(sorted, sorted, 1, compare_ascending) == NULL);
