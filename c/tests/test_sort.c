@@ -13,7 +13,7 @@
   } while (0)
 
 #define sz 11
-const int sorted_ascending[sz] = {INT_MIN, -42, -5, -3, 1, 2, 3, 4, 5, 6, +INT_MAX};
+const int sorted_ascending[sz] = {INT_MIN, -42, -5, -3, 1, 2, 3, 4, 5, 6, INT_MAX};
 const int sorted_descending[sz] = {INT_MAX, 6, 5, 4, 3, 2, 1, -3, -5, -42, INT_MIN};
 #define UNSORTED_ARRAY {1, -5, INT_MIN, -3, 6, 4, -42, 3, INT_MAX, 2, 5}
 

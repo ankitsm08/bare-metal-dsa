@@ -13,7 +13,9 @@ int *linear_search(const int *begin, const int *end, int target) {
 }
 
 // middle element getter helper
-inline const int *get_mid(const int *begin, const int *end) { return begin + ((end - begin) >> 1); }
+static inline const int *get_mid(const int *begin, const int *end) {
+  return begin + ((end - begin) >> 1);
+}
 
 // O(log N) binary search on sorted ranges
 int *binary_search(const int *begin, const int *end, int target, compare_fn compare) {

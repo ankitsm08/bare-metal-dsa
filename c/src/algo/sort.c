@@ -99,7 +99,7 @@ int *lomuto_partition(int *begin, int *end, compare_fn compare) {
 
 // ab ^ ac  == 1     a wins & loses => a is median
 // !(ab ^ bc) == 1   same check for b, otherwise c
-inline int *median3(int *a, int *b, int *c) {
+static inline int *median3(int *a, int *b, int *c) {
   const int ab = *a > *b, ac = *a > *c, bc = *b > *c;
   return ab ^ ac ? a : !(ab ^ bc) ? b : c;
 }
