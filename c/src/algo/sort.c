@@ -99,14 +99,14 @@ int *lomuto_partition(int *begin, int *end, compare_fn compare) {
 
 // ab ^ ac  == 1     a wins & loses => a is median
 // !(ab ^ bc) == 1   same check for b, otherwise c
-static inline int *median3(int *a, int *b, int *c) {
-  const int ab = *a > *b, ac = *a > *c, bc = *b > *c;
+static inline int *median3(int *a, int *b, int *c, compare_fn compare) {
+  const int ab = compare(*a, *b) > 0, ac = compare(*a, *c) > 0, bc = compare(*b, *c) > 0;
   return ab ^ ac ? a : !(ab ^ bc) ? b : c;
 }
 
 // quick sort hoare partition helper using median-of-three
 int *hoare_partition(int *begin, int *end, compare_fn compare) {
-  int *pivot_m3 = median3(begin, begin + ((end - begin) >> 1), end - 1);
+  int *pivot_m3 = median3(begin, begin + ((end - begin) >> 1), end - 1, compare);
 
   int pivot_val = *pivot_m3;
   swap(pivot_m3, end - 1);
