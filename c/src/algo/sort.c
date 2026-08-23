@@ -139,7 +139,9 @@ static inline int *hoare_partition(int *begin, int *end, compare_fn compare) {
   return i;
 }
 
-// O(N log N) time and O(log N) call stack space
+// average : O(N log N)
+// worst   : O(N^2)
+// stack   : O(log N) average
 // uses hoare partition
 void quick_sort(int *begin, int *end, compare_fn compare) {
   if (begin + 1 < end) {
