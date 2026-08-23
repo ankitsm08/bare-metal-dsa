@@ -1,5 +1,5 @@
 CXX       := g++
-CXXFLAGS  := -Wall -Wextra -Werror -Iinclude -std=c++20 -g -MMD -fsanitize=address -fsanitize=undefined
+CXXFLAGS  := -Wall -Wextra -Werror -Iinclude -std=c++23 -g -MMD -fsanitize=address -fsanitize=undefined
 LDFLAGS   := -fsanitize=address -fsanitize=undefined
 
 TEST_SRC  := $(shell find tests -name 'test_*.cpp')
@@ -16,7 +16,7 @@ all: $(TEST_BINS)
 %.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-bin/test_%: tests/test_%.cpp $(OBJ)
+bin/test_%: tests/test_%.cpp
 	@mkdir -p bin
 	@$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
