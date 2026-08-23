@@ -7,7 +7,7 @@
 
 #define STARTING_CAPACITY 4
 
-inline static size_t vector_next_capacity(size_t cap) {
+static inline size_t vector_next_capacity(size_t cap) {
   return cap < STARTING_CAPACITY ? STARTING_CAPACITY : cap * 2;
 }
 
