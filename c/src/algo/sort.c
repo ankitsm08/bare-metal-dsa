@@ -59,7 +59,7 @@ void insertion_sort(int *begin, int *end, compare_fn compare) {
 }
 
 // merge_sort helper
-void merge(int *begin, int *mid, int *end, compare_fn compare) {
+static inline void merge(int *begin, int *mid, int *end, compare_fn compare) {
   int *tmp = malloc(sizeof(int) * (end - begin));
 
   if (!tmp) {
@@ -93,7 +93,7 @@ void merge_sort(int *begin, int *end, compare_fn compare) {
 }
 
 // quick sort lomuto partition helper using middle-element
-int *lomuto_partition(int *begin, int *end, compare_fn compare) {
+static inline int *lomuto_partition(int *begin, int *end, compare_fn compare) {
   int *pivot_mid = begin + ((end - begin) >> 1);
 
   int pivot_val = *pivot_mid;
@@ -116,7 +116,7 @@ static inline int *median3(int *a, int *b, int *c, compare_fn compare) {
 }
 
 // quick sort hoare partition helper using median-of-three
-int *hoare_partition(int *begin, int *end, compare_fn compare) {
+static inline int *hoare_partition(int *begin, int *end, compare_fn compare) {
   int *pivot_m3 = median3(begin, begin + ((end - begin) >> 1), end - 1, compare);
 
   int pivot_val = *pivot_m3;
