@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,6 +13,11 @@ static inline size_t vector_next_capacity(size_t cap) {
 }
 
 static void vector_reallocate(Vector *vec, size_t new_cap) {
+  if (new_cap > SIZE_MAX / sizeof(int)) {
+    fprintf(stderr, "Fatal: Vector capacity overflow.\n");
+    exit(EXIT_FAILURE);
+  }
+
   int *temp = realloc(vec->data, sizeof(int) * new_cap);
   if (!temp) {
     fprintf(stderr, "Fatal: Out of memory reallocating Vector buffer.\n");
@@ -24,6 +30,12 @@ static void vector_reallocate(Vector *vec, size_t new_cap) {
 
 // Lifecycle
 Vector *vector_create(size_t init_cap) {
+  const size_t cap = init_cap == 0 ? STARTING_CAPACITY : init_cap;
+  if (cap > SIZE_MAX / sizeof(int)) {
+    fprintf(stderr, "Fatal: Vector capacity overflow.\n");
+    exit(EXIT_FAILURE);
+  }
+
   Vector *vec = malloc(sizeof(Vector));
   if (!vec) {
     fprintf(stderr, "Fatal: Out of memory allocating Vector struct.\n");
@@ -31,7 +43,7 @@ Vector *vector_create(size_t init_cap) {
   }
 
   vec->size = 0;
-  vec->capacity = init_cap == 0 ? STARTING_CAPACITY : init_cap;
+  vec->capacity = cap;
   vec->data = malloc(sizeof(int) * vec->capacity);
 
   if (!vec->data) {
@@ -173,8 +185,9 @@ void vector_insert(Vector *vec, size_t idx, int val) {
     exit(EXIT_FAILURE);
   }
 
-  if (vec->size == vec->capacity)
+  if (vec->size == vec->capacity) {
     vector_reallocate(vec, vector_next_capacity(vec->capacity));
+  }
 
   // shift elements right to make room
   for (size_t i = vec->size; i > idx; i--) {
@@ -228,8 +241,9 @@ void vector_resize_with_value(Vector *vec, size_t new_size, int val) {
   assert(vec != NULL);
 
   if (vec->size < new_size) {
-    if (vec->capacity < new_size)
+    if (vec->capacity < new_size) {
       vector_reallocate(vec, new_size);
+    }
 
     // initialize new slots to val
     for (size_t i = vec->size; i < new_size; i++) {
