@@ -113,12 +113,12 @@ const int *vector_cbegin(const Vector *vec) {
 
 int *vector_end(Vector *vec) {
   assert(vec != NULL);
-  return vec->data + vec->size;
+  return vec->data ? vec->data + vec->size : NULL;
 }
 
 const int *vector_cend(const Vector *vec) {
   assert(vec != NULL);
-  return vec->data + vec->size;
+  return vec->data ? vec->data + vec->size : NULL;
 }
 
 // Capacity
