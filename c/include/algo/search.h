@@ -10,3 +10,6 @@ int *linear_search(const int *begin, const int *end, int target);
 int *binary_search(const int *begin, const int *end, int target, compare_fn compare);
 int *lower_bound(const int *begin, const int *end, int target, compare_fn compare);
 int *upper_bound(const int *begin, const int *end, int target, compare_fn compare);
+
+// O(log N) interpolation search on sorted ranges
+int *interpolation_search(const int *begin, const int *end, int target, compare_fn compare);

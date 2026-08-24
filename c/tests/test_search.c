@@ -140,6 +140,47 @@ void test_upper_bound(void) {
   assert(upper_bound(desc, desc + 5, 6, compare_descending) == &desc[3]); // 4: first greater than 6
 }
 
+void test_interpolation_search(void) {
+  // first element boundary
+  assert(interpolation_search(sorted, sorted + sz, INT_MIN + 42, compare_ascending) == &sorted[0]);
+
+  // every element in the array
+  for (size_t i = 0; i < sz; i++)
+    assert(interpolation_search(sorted, sorted + sz, sorted[i], compare_ascending) == &sorted[i]);
+
+  // opposite comparator (non-middle element)
+  assert(interpolation_search(sorted, sorted + sz, 6, compare_descending) == NULL);
+
+  // missing elements (below, middle, above)
+  assert(interpolation_search(sorted, sorted + sz, INT_MIN, compare_ascending) == NULL);
+  assert(interpolation_search(sorted, sorted + sz, 42, compare_ascending) == NULL);
+  assert(interpolation_search(sorted, sorted + sz, INT_MAX, compare_ascending) == NULL);
+
+  // even-length array
+  int even[] = {0, 2, 4, 6, 8, 10};
+  assert(interpolation_search(even, even + 6, 0, compare_ascending) == &even[0]);
+  assert(interpolation_search(even, even + 6, 6, compare_ascending) == &even[3]);
+  assert(interpolation_search(even, even + 6, 10, compare_ascending) == &even[5]);
+  assert(interpolation_search(even, even + 6, 7, compare_ascending) == NULL);
+
+  // 1-element and 2-element arrays
+  int one[] = {99};
+  assert(interpolation_search(one, one + 1, 99, compare_ascending) == &one[0]);
+  assert(interpolation_search(one, one + 1, 1, compare_ascending) == NULL);
+  int two[] = {10, 20};
+  assert(interpolation_search(two, two + 2, 10, compare_ascending) == &two[0]);
+  assert(interpolation_search(two, two + 2, 20, compare_ascending) == &two[1]);
+  assert(interpolation_search(two, two + 2, 15, compare_ascending) == NULL);
+
+  // duplicates: returns some pointer to a matching element
+  int dups[] = {1, 2, 2, 2, 3};
+  int *res = interpolation_search(dups, dups + 5, 2, compare_ascending);
+  assert(res && *res == 2);
+
+  // empty array boundary
+  assert(interpolation_search(sorted, sorted, 1, compare_ascending) == NULL);
+}
+
 int main(void) {
   printf("Testing search...\n\n");
 
@@ -147,6 +188,7 @@ int main(void) {
   RUN_TEST(test_binary_search);
   RUN_TEST(test_lower_bound);
   RUN_TEST(test_upper_bound);
+  RUN_TEST(test_interpolation_search);
 
   printf("All tests passed for search\n");
   return 0;
