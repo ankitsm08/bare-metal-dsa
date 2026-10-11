@@ -21,7 +21,15 @@ void list_destroy(List *list);
 // Element Access
 int list_get(const List *list, size_t idx);
 void list_set(List *list, size_t idx, int val);
+int list_front(const List *list);
+int list_back(const List *list);
 
 // Size
 bool list_empty(const List *list);
 size_t list_size(const List *list);
+
+// Modifiers
+void list_push_front(List *list, int val);
+void list_pop_front(List *list);
+void list_push_back(List *list, int val);
+void list_pop_back(List *list);
