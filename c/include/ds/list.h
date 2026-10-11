@@ -29,7 +29,11 @@ bool list_empty(const List *list);
 size_t list_size(const List *list);
 
 // Modifiers
+void list_clear(List *list);
+void list_insert(List *list, size_t idx, int val);
 void list_push_front(List *list, int val);
 void list_pop_front(List *list);
 void list_push_back(List *list, int val);
 void list_pop_back(List *list);
+void list_erase(List *list, size_t idx);
+void list_swap(List *list1, List *list2);

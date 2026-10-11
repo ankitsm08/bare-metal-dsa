@@ -107,6 +107,43 @@ size_t list_size(const List *list) {
 }
 
 // Modifiers
+void list_clear(List *list) {
+  assert(list != NULL);
+  ListNode *node = list->head;
+
+  while (node != NULL) {
+    ListNode *next = node->next;
+    free(node);
+    node = next;
+  }
+
+  list->head = list->tail = NULL;
+}
+
+void list_insert(List *list, size_t idx, int val) {
+  assert(list != NULL);
+
+  size_t size = list_size(list);
+  if (idx > size) {
+    fprintf(stderr, "Index Error: Cannot insert at out-of-bounds index %zu.\n", idx);
+    exit(EXIT_FAILURE);
+  }
+
+  if (idx == size) {
+    list_push_back(list, val);
+    return;
+  } else if (idx == 0) {
+    list_push_front(list, val);
+    return;
+  }
+
+  ListNode *node = get_node(list, idx);
+  ListNode *new_node = make_node(val);
+  new_node->next = node;
+  new_node->prev = node->prev;
+  node->prev->next = new_node;
+  node->prev = new_node;
+}
 
 void list_push_front(List *list, int val) {
   assert(list != NULL);
@@ -162,4 +199,39 @@ void list_pop_back(List *list) {
     list->head = list->tail = NULL;
   }
   free(tail);
+}
+
+void list_erase(List *list, size_t idx) {
+  assert(list != NULL);
+
+  size_t size = list_size(list);
+  if (idx >= size) {
+    fprintf(stderr, "Index Error: Cannot erase at out-of-bounds index %zu.\n", idx);
+    exit(EXIT_FAILURE);
+  }
+
+  if (idx == size - 1) {
+    list_pop_back(list);
+    return;
+  } else if (idx == 0) {
+    list_pop_front(list);
+    return;
+  }
+
+  ListNode *node = get_node(list, idx);
+  node->prev->next = node->next;
+  node->next->prev = node->prev;
+  free(node);
+}
+
+void list_swap(List *list1, List *list2) {
+  assert(list1 != NULL && list2 != NULL);
+
+  ListNode *temp_head = list1->head;
+  list1->head = list2->head;
+  list2->head = temp_head;
+
+  ListNode *temp_tail = list1->tail;
+  list1->tail = list2->tail;
+  list2->tail = temp_tail;
 }
